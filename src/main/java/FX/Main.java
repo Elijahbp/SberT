@@ -1,3 +1,5 @@
+package FX;
+
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
@@ -29,14 +31,17 @@ import java.util.List;
 
 public class Main extends Application {
     private static int API_ID = 6622888;
-    private static String CLIENT_SECRET = "ojmrMmjQ5A3qI1ktPxNx";
+    //private static String CLIENT_SECRET = "ojmrMmjQ5A3qI1ktPxNx";
     private static String REDIRECT_URL = "https://oauth.vk.com/blank.html";
+    private static String DISPLAY = "page";
     private static int SCOPE = 1 + 2 + 4096 + 8192;
+
+
     private static String VK_AUTH = "https://oauth.vk.com/authorize?" +
             "client_id=" + API_ID +
-            "&display=page" +
+            "&display="  + DISPLAY +
             "&redirect_uri=" + REDIRECT_URL +
-            "&response_type=token" +
+            "&response_type="+ "token" +
             "&scope="+ SCOPE +
             "&revoke=1"+
             "&v=5.59";
@@ -88,26 +93,6 @@ public class Main extends Application {
     }
 }
 
-//import javafx.application.Application;
-//import javafx.fxml.FXMLLoader;
-//import javafx.scene.Parent;
-//import javafx.scene.Scene;
-//import javafx.stage.Stage;
-//
-//public class Main extends Application {
-//
-//    @Override
-//    public void start(Stage primaryStage) throws Exception{
-//        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-//        primaryStage.setTitle("Hello World");
-//        primaryStage.setScene(new Scene(root));
-//        primaryStage.show();
-//    }
-//
-//
-//    public static void main(String[] args) {
-//        launch(args);
-//    }
-//}
+
 //TODO: решить проблему с зависимостями (не цепляет схему)
 //TODO: придумать, как хранить данные авторизации, чтобы по сто раз не авторизовываться при каждом запуске
