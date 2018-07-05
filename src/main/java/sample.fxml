@@ -11,7 +11,17 @@
 <?import javafx.scene.control.Label?>
 
 
-
-<GridPane fx:controller="Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-</GridPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="236.0" layoutY="14.0" prefHeight="20.0" prefWidth="250.0" text="Name" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <Button layoutX="405.0" layoutY="261.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Statistic" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+      <Label layoutX="236.0" layoutY="42.0" text="Введите id, чтобы собрать статистику:" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="42.0" />
+      <TextField layoutX="236.0" layoutY="59.0" prefHeight="20.0" prefWidth="130.0" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="60.0" />
+      <Label alignment="TOP_LEFT" layoutX="235.0" layoutY="106.0" prefHeight="101.0" prefWidth="209.0" text="Количество лайков: " AnchorPane.rightAnchor="56.0" AnchorPane.topAnchor="106.0" />
+   </children>
+</AnchorPane>

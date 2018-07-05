@@ -29,7 +29,7 @@ import java.util.List;
 
 public class Main extends Application {
     private static int API_ID = 6622888;
-    private static String CLIENT_SECRET = "ojmrMmjQ5A3qI1ktPxNx";
+    //private static String CLIENT_SECRET = "ojmrMmjQ5A3qI1ktPxNx";
     private static String REDIRECT_URL = "https://oauth.vk.com/blank.html";
     private static int SCOPE = 1 + 2 + 4096 + 8192;
     private static String VK_AUTH = "https://oauth.vk.com/authorize?" +
