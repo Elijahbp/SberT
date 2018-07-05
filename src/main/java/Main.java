@@ -17,9 +17,11 @@ import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import vk_init.ClientVK;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -29,48 +31,27 @@ public class Main extends Application {
     private static String REDIRECT_URL = "https://oauth.vk.com/blank.html";
     private static int SCOPE = 1 + 2 + 4096 + 8192;
     private static String VK_AUTH = "https://oauth.vk.com/authorize?" +
-            "client_id=" +API_ID+
+            "client_id=" + API_ID +
             "&display=page" +
-            "&redirect_uri=" +REDIRECT_URL+
+            "&redirect_uri=" + REDIRECT_URL +
             "&response_type=token" +
-            "&scope="+SCOPE+
+            "&scope="+ SCOPE +
             "&revoke=1"+
             "&v=5.59";
-    private String tokenUrl;
+
 
     public static void main(String[] args) throws ClientException, ApiException, IOException {
         Main.launch();
     }
 
-    private void auth() throws ClientException, ApiException {
-
-        TransportClient transportClient = new HttpTransportClient();
-        VkApiClient vk = new VkApiClient(transportClient);
-
-
-        String token = tokenUrl.split("#")[1].split("&")[0].split("=")[1];
-        Integer user_id= Integer.parseInt(tokenUrl.split("&")[2].split("=")[1]);
-        UserActor actor = new UserActor(user_id,token);
-        List<UserField> userFields = new ArrayList<>();
-        userFields.add(UserField.MAIDEN_NAME);
-        userFields.add(UserField.NICKNAME);
-        userFields.add(UserField.SCREEN_NAME);
-        userFields.add(UserField.CITY);
-        userFields.add(UserField.SEX);
-        List<UserXtrCounters> friendsGetListsQuery = vk.users().get(actor).userIds("biploveyou").fields(userFields).execute();
-        for (UserXtrCounters usr: friendsGetListsQuery) {
-            System.out.println(usr.getFirstName()+" - "+usr.getLastName()+" - "+usr.getNickname()+" - "
-                    +usr.getMaidenName()+" - " + usr.getScreenName() +" - "+ usr.getSex());
-        }
-
-        GetResponse wallGetQuery =  vk.wall().get(actor).domain("zzredeyezz").filter(WallGetFilter.ALL).execute();
-        int c=0;
-        for (WallPostFull postFull:wallGetQuery.getItems()) {
-            c +=postFull.getLikes().getCount();
-        }
-        System.out.println(c);
-
+    private void auth(String newValue) throws ClientException, ApiException {
+        ClientVK clientVK = new ClientVK(newValue);
+        HashMap<String,Object> getInf = clientVK.getTotalInformation("asja_1111");
+        System.out.println(((UserXtrCounters)getInf.get("user")).getFirstName() + " " + ((UserXtrCounters) getInf.get("user")).getLastName());
+        System.out.println(getInf.get("countLikes_Wall"));
+        System.out.println(getInf.get("countComments_Wall"));
     }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         WebView webView = new WebView();
@@ -83,17 +64,15 @@ public class Main extends Application {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if(newValue.startsWith(REDIRECT_URL)){
-                    tokenUrl = newValue;
                     System.out.println(newValue);
                     primaryStage.close();
                     try {
-                        auth();
+                        auth(newValue);
                     } catch (ClientException e) {
                         e.printStackTrace();
                     } catch (ApiException e) {
                         e.printStackTrace();
                     }
-                    //primaryStage.close();
                 }
             }
         });
