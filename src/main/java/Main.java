@@ -19,6 +19,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import vk_init.ClientVK;
+import vk_init.TotalInformationVO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,16 +43,19 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws ClientException, ApiException, IOException {
-        //Main.launch();
         launch(args);
     }
 
     private void auth(String newValue) throws ClientException, ApiException {
         ClientVK clientVK = new ClientVK(newValue);
-        HashMap<String,Object> getInf = clientVK.getTotalInformation("asja_1111");
-        System.out.println(((UserXtrCounters)getInf.get("user")).getFirstName() + " " + ((UserXtrCounters) getInf.get("user")).getLastName());
-        System.out.println(getInf.get("countLikes_Wall"));
-        System.out.println(getInf.get("countComments_Wall"));
+        TotalInformationVO totalInformationVO = clientVK.getTotalInformation("asja_1111");
+
+
+       System.out.println((totalInformationVO.getUser()).getFirstName()
+               + " "
+               + ((UserXtrCounters) totalInformationVO.getUser()).getLastName());
+        System.out.println(totalInformationVO.getCountComments_Wall());
+        System.out.println(totalInformationVO.getCountLikes_Wall());
     }
 
     @Override
@@ -96,7 +100,7 @@ public class Main extends Application {
 //    public void start(Stage primaryStage) throws Exception{
 //        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 //        primaryStage.setTitle("Hello World");
-//        primaryStage.setScene(new Scene(root, 300, 275));
+//        primaryStage.setScene(new Scene(root));
 //        primaryStage.show();
 //    }
 //
@@ -106,3 +110,4 @@ public class Main extends Application {
 //    }
 //}
 //TODO: решить проблему с зависимостями (не цепляет схему)
+//TODO: придумать, как хранить данные авторизации, чтобы по сто раз не авторизовываться при каждом запуске

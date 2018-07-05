@@ -11,10 +11,8 @@ import com.vk.api.sdk.objects.wall.WallPostFull;
 import com.vk.api.sdk.objects.wall.responses.GetResponse;
 import com.vk.api.sdk.queries.users.UserField;
 import com.vk.api.sdk.queries.wall.WallGetFilter;
-import org.apache.commons.collections4.iterators.ObjectGraphIterator;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class ClientVK {
 
@@ -32,13 +30,13 @@ public class ClientVK {
 
     }
 
-    //Лучше через глобальные переменные
-    public HashMap<String,Object> getTotalInformation(String userID){
-        HashMap<String,Object> totalInformationList = new HashMap<>();
-        totalInformationList.put("user",getUser(userID));
-        totalInformationList.put("countLikes_Wall",getCountLikesFromWall(userID));
-        totalInformationList.put("countComments_Wall",getGetCountCommentsFromWall(userID));
-        return totalInformationList;
+    public TotalInformationVO getTotalInformation(String userID){
+        TotalInformationVO totalInformationVO = new TotalInformationVO();
+        totalInformationVO
+                .setUserID(getUser(userID))
+                .setCountLikes_Wall(getCountLikesFromWall(userID))
+                .setCountComments_Wall(getGetCountCommentsFromWall(userID));
+        return totalInformationVO;
     }
 
     public UserXtrCounters getUser(String userID) {
