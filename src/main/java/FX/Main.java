@@ -47,25 +47,33 @@ public class Main extends Application {
             "&v=5.59";
 
 
-    public static void main(String[] args) throws ClientException, ApiException, IOException {
+    public static void main(String[] args){
         launch(args);
     }
 
-    private void auth(String newValue) throws ClientException, ApiException {
+    private void auth(String newValue) {
         ClientVK clientVK = new ClientVK(newValue);
         TotalInformationVO totalInformationVO = clientVK.getTotalInformation("asja_1111");
 
 
        System.out.println((totalInformationVO.getUser()).getFirstName()
                + " "
-               + ((UserXtrCounters) totalInformationVO.getUser()).getLastName());
+               +  totalInformationVO.getUser().getLastName());
         System.out.println(totalInformationVO.getCountComments_Wall());
         System.out.println(totalInformationVO.getCountLikes_Wall());
     }
 
+    private void setHeadScene(Stage primaryStage) throws IOException {
+        Parent parent = FXMLLoader.load(getClass().getResource("12.fxml"));
+        primaryStage.setTitle("Main form");
+        primaryStage.setScene(new Scene(parent,600,400));
+        primaryStage.show();
+    }
+
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        setHeadScene(primaryStage);
         WebView webView = new WebView();
         WebEngine webEngine = webView.getEngine();
         webEngine.load(VK_AUTH);
@@ -78,17 +86,11 @@ public class Main extends Application {
                 if(newValue.startsWith(REDIRECT_URL)){
                     System.out.println(newValue);
                     primaryStage.close();
-                    try {
-                        auth(newValue);
-                    } catch (ClientException e) {
-                        e.printStackTrace();
-                    } catch (ApiException e) {
-                        e.printStackTrace();
-                    }
+                    auth(newValue);
+
                 }
             }
         });
-
 
     }
 }
