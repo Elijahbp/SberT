@@ -60,8 +60,6 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(webView));
         primaryStage.show();
 
-
-
         webEngine.locationProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
