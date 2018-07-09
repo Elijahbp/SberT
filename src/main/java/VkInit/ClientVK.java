@@ -1,4 +1,4 @@
-package vk_init;
+package VkInit;
 
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SberT.iml" filepath="$PROJECT_DIR$/.idea/modules/SberT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SberT.iml" filepath="$PROJECT_DIR$/SberT.iml" />
     </modules>
   </component>
 </project>

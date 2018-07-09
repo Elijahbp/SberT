@@ -1,4 +1,4 @@
-package vk_init;
+package VkInit;
 
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 
