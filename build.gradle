@@ -10,8 +10,9 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
 
+apply plugin: 'java'
+apply plugin: 'application'
 
 repositories {
     mavenLocal()
@@ -34,7 +35,7 @@ apply plugin: 'javafx-gradle-plugin'
 // for all available settings please look at the class "JavaFXGradlePluginExtension"
 jfx {
     verbose = true
-    mainClass = "Controllers.Main"
+    mainClass = "Main.Main"
     jfxAppOutputDir = "build/jfx/app"
     jfxMainAppJarName = "project-jfx.jar"
     deployDir = "src/main/deploy"

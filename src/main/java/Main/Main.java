@@ -1,14 +1,9 @@
-package Controllers;
+package Main;
 
-import Controllers.FX.Controller;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -36,12 +31,12 @@ public class Main extends Application {
     }
 
     private void setSearchScene(Stage primaryStage/*,String newValue*/) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("../../resources/FxSamples/sample.fxml"));
         Parent parent = fxmlLoader.load();
         primaryStage.setTitle("Main form");
         primaryStage.setScene(new Scene(parent));
-//        Controller controller = fxmlLoader.getController();
-//        controller.setTokenUri(newValue);
+//      Controller controller = fxmlLoader.getController();
+//      controller.setTokenUri(newValue);
         primaryStage.show();
     }
 

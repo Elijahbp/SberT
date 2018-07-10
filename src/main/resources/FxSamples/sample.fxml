@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.scene.text.Font?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FX.Controller">
-   <children>
-   
    <Label layoutX="236.0" layoutY="14.0" prefHeight="20.0" prefWidth="250.0" text="Name" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
        <font>
            <Font name="System Bold" size="14.0" />
@@ -19,5 +15,4 @@
        <Label layoutX="236.0" layoutY="42.0" text="Введите id, чтобы собрать статистику:" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="42.0" />
        <TextField fx:id="textFld_userId" layoutX="236.0" layoutY="59.0" prefHeight="20.0" prefWidth="130.0" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="60.0" />
        <Label fx:id="totalStat" alignment="TOP_LEFT" layoutX="235.0" layoutY="106.0" prefHeight="101.0" prefWidth="209.0" text="Количество лайков: " AnchorPane.rightAnchor="56.0" AnchorPane.topAnchor="106.0" />
-   </children>
 </AnchorPane>
