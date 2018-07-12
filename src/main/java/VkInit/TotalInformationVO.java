@@ -6,7 +6,7 @@ public class TotalInformationVO {
     public UserXtrCounters user;
     public int countLikes_Wall;
     public int countComments_Wall;
-
+    public String photoId;
     public TotalInformationVO() {
     }
 
@@ -19,7 +19,7 @@ public class TotalInformationVO {
         return this;
     }
 
-    public int getCountLikes_Wall() {
+    public Integer getCountLikes_Wall() {
         return countLikes_Wall;
     }
 
@@ -28,12 +28,17 @@ public class TotalInformationVO {
         return this;
     }
 
-    public int getCountComments_Wall() {
+    public Integer getCountComments_Wall() {
         return countComments_Wall;
     }
 
     public TotalInformationVO setCountComments_Wall(int countComments_Wall) {
         this.countComments_Wall = countComments_Wall;
+        return this;
+    }
+
+    public TotalInformationVO setPhotoId(String photoId){
+        this.photoId = photoId;
         return this;
     }
 }
