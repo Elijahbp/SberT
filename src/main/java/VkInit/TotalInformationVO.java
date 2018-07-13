@@ -2,38 +2,63 @@ package VkInit;
 
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 
+import java.util.List;
+
 public class TotalInformationVO {
-    public UserXtrCounters user;
-    public int countLikes_Wall;
-    public int countComments_Wall;
-    public String photoId;
+    private UserXtrCounters mainUser;
+    private int countLikesFromWall;
+    private int countCommentsFromWall;
+    private String photoId;
+
+
+
+    private List<UserXtrCounters> usersFromComments;
+
+
+
     public TotalInformationVO() {
     }
 
-    public UserXtrCounters getUser() {
-        return user;
+    public TotalInformationVO(UserXtrCounters user, int countLikesFromWall, int countCommentsFromWall, List<UserXtrCounters> usersFromComments) {
+        this.mainUser = user;
+        this.countLikesFromWall = countLikesFromWall;
+        this.countCommentsFromWall = countCommentsFromWall;
+        this.usersFromComments =  usersFromComments;
+        this.photoId = user.getPhotoMaxOrig();
+    }
+
+    public List<UserXtrCounters> getUsersFromComments() {
+        return usersFromComments;
+    }
+
+    public void setUsersFromComments(List<UserXtrCounters> usersFromComments) {
+        this.usersFromComments = usersFromComments;
+    }
+
+    public UserXtrCounters getMainUser() {
+        return mainUser;
     }
 
     public TotalInformationVO setUserID(UserXtrCounters user) {
-        this.user = user;
+        this.mainUser = user;
         return this;
     }
 
-    public Integer getCountLikes_Wall() {
-        return countLikes_Wall;
+    public Integer getCountLikesFromWall() {
+        return countLikesFromWall;
     }
 
-    public TotalInformationVO setCountLikes_Wall(int countLikes_Wall) {
-        this.countLikes_Wall = countLikes_Wall;
+    public TotalInformationVO setCountLikesFromWall(int countLikesFromWall) {
+        this.countLikesFromWall = countLikesFromWall;
         return this;
     }
 
-    public Integer getCountComments_Wall() {
-        return countComments_Wall;
+    public Integer getCountCommentsFromWall() {
+        return countCommentsFromWall;
     }
 
-    public TotalInformationVO setCountComments_Wall(int countComments_Wall) {
-        this.countComments_Wall = countComments_Wall;
+    public TotalInformationVO setCountCommentsFromWall(int countCommentsFromWall) {
+        this.countCommentsFromWall = countCommentsFromWall;
         return this;
     }
 

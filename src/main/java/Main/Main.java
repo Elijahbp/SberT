@@ -30,11 +30,12 @@ public class Main extends Application {
             "&response_type=" + "token" +
             "&scope=" + SCOPE +
             "&revoke=1" +
-            "&v=5.59";
+            "&v=5.80";
 
     private Integer userIdActor;
     private String accessToken;
     private String tokenUrl;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -43,7 +44,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("sample.fxml"));
         Parent parent = fxmlLoader.load();
         primaryStage.setTitle("Main form");
-        primaryStage.setScene(new Scene(parent,800,600));
+        primaryStage.setScene(new Scene(parent));
         Controller controller = fxmlLoader.getController();
         splitTokenUrl();
         controller.setClientId(369512160,"eeedd0add24b2084672dbfaf295c77245ce055b67d52545cd88d96278af397e4b37303841dd31050b302f");
