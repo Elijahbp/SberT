@@ -8,91 +8,127 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import com.vk.api.sdk.objects.wall.WallPostFull;
-import com.vk.api.sdk.objects.wall.responses.GetCommentsResponse;
 import com.vk.api.sdk.objects.wall.responses.GetResponse;
+import com.vk.api.sdk.queries.likes.LikesGetListQuery;
+import com.vk.api.sdk.queries.likes.LikesType;
 import com.vk.api.sdk.queries.users.UserField;
 import com.vk.api.sdk.queries.wall.WallGetFilter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.awt.font.TextHitInfo;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ClientVK {
 
-    private VkApiClient vk;
+    private final VkApiClient vk;
     private UserActor actor;
-    private int countLikes =0;
-    private int countComments =0;
+    private int countLikes = 0;
+    private int countComments = 0;
+    private TotalInformationVO totalInformationVO;
     public ClientVK(Integer userIdActor, String accessToken) {
         TransportClient transportClient = new HttpTransportClient();
         this.vk = new VkApiClient(transportClient);
         this.actor = new UserActor(userIdActor, accessToken);
     }
 
+    public TotalInformationVO getUserTotalInformation(String userDomain) throws ClientException, ApiException {
+        UserXtrCounters mainUser = getUser(userDomain);
+        List<WallPostFull>wallPostFulls = getWallPostFull(mainUser.getId());
+        setCountsFromWallPost(wallPostFulls);
 
-    public TotalInformationVO getClient(String userID) throws ClientException, ApiException {
-        UserXtrCounters bufUser = null;
-        GetResponse wallGetQuery = null;
-        try {
-            bufUser =  getUser(userID);
-            wallGetQuery = this.vk.wall().get(this.actor).domain(userID).filter(WallGetFilter.ALL).execute();
-        } catch (ApiException e) {
-            e.printStackTrace();
-        } catch (ClientException e) {
-            e.printStackTrace();
-        }
-
-        getCountsFromWallPost(wallGetQuery);
-        TotalInformationVO totalInformationVO = null;
-        if (bufUser != null){
-            totalInformationVO = new TotalInformationVO(bufUser,this.countLikes,this.countComments,getUsersFromComments(wallGetQuery));
-        }
-
+        this.totalInformationVO = new TotalInformationVO(mainUser,countLikes,countComments,
+                getUsersAndCountLikes(wallPostFulls));
         return totalInformationVO;
     }
 
-    private void getCountsFromWallPost(GetResponse wallGetQuery){
-        this.countLikes = 0;
-        this.countComments = 0;
-        assert wallGetQuery != null;
-        for (WallPostFull postFull: wallGetQuery.getItems()) {
-            this.countComments += postFull.getComments().getCount();
-            this.countLikes += postFull.getLikes().getCount();
+    private UserXtrCounters getUser(String userID) throws ClientException, ApiException {
+        List<UserXtrCounters> userList;
+        UserXtrCounters user = null;
+        userList = vk.users().get(actor).userIds(userID).fields(UserField.PHOTO_MAX_ORIG).execute();
+        if (userList.size() ==1){
+            user = userList.stream().filter(Objects::nonNull).findAny().get();
+            return user;
+        }else if (user == null){
+            //TODO придумать что сделать
         }
+        return null;
     }
 
-    private List<UserXtrCounters> getUsersFromComments(GetResponse wallGetQuery) throws ClientException, ApiException {
-        List<GetCommentsResponse> wallCommentsGetQuery = new ArrayList<>();
+    //!!! ПОРЯДОК СОХРАНЯЕТСЯ!!!
+    private List<UserXtrCounters> getUsers(List<Integer> usersId) throws ClientException, ApiException {
+        ArrayList<String> users = new ArrayList<>();
+        usersId.forEach(integer -> users.add(integer.toString()));
         List<UserXtrCounters> usersList = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            wallCommentsGetQuery.add(this.vk.wall().getComments(actor,wallGetQuery.getItems().get(i).getId()).count(10).execute());
-        }
-        List<Integer> usersIdList = new ArrayList<>();
-        wallCommentsGetQuery.forEach(getCommentsResponse -> {
-            getCommentsResponse.getItems().forEach(wallComment -> {
-                usersIdList.add(wallComment.getFromId());
-            });
-        });
-
-        usersIdList.forEach(System.out::println);
-        usersIdList.forEach(integer->{
-                usersList.add(getUser(integer.toString()));
-            }
-        );
-        usersList.forEach(System.out::println);
+        usersList.addAll(vk.users().get(actor).userIds(users).execute());
         return usersList;
     }
 
-    private UserXtrCounters getUser(String userId){
-        UserXtrCounters user = null;
-        try {
-            user = vk.users().get(actor).userIds(userId).fields(UserField.PHOTO_MAX_ORIG).execute().get(0); //решил использовать получение объекта в статическом виде, т.к. мы получаем один объект от одного id
-        } catch (ApiException e) {
-            e.printStackTrace();
-        } catch (ClientException e) {
-            e.printStackTrace();
-        }
-        return user;
+
+
+    private List<WallPostFull> getWallPostFull(int userId) throws ClientException, ApiException {
+        List<WallPostFull>wallPostFulls = new ArrayList<>();
+        GetResponse wallGetQuery = null;
+        wallGetQuery = this.vk.wall().get(this.actor).ownerId(userId).filter(WallGetFilter.ALL).count(300).execute();
+        wallPostFulls.addAll(wallGetQuery.getItems());
+        return wallPostFulls;
     }
+
+    //TODO подумать над тем, как лучше представить счетчики
+    private void setCountsFromWallPost(List<WallPostFull>wallPostFulls){
+        this.countLikes = 0;
+        this.countComments = 0;
+        for (WallPostFull postFull: wallPostFulls) {
+            countComments += postFull.getComments().getCount();
+            countLikes += postFull.getLikes().getCount();
+        }
+    }
+
+    private HashMap<UserXtrCounters,Integer> getUsersAndCountLikes(List<WallPostFull>wallPostFulls) throws ClientException, ApiException {
+        List<Integer> listUsersIdFromPost = new ArrayList<>();
+        wallPostFulls.forEach(wallPostFull -> {
+            try {
+                listUsersIdFromPost.addAll(vk.likes().getList(actor,LikesType.POST).itemId(wallPostFull.getId()).ownerId(wallPostFull.getFromId()).count(50).execute().getItems());
+            } catch (ApiException e) {
+                e.printStackTrace();
+            } catch (ClientException e) {
+                e.printStackTrace();
+            }
+            synchronized (vk){
+                    try {
+                        vk.wait(340);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+        });
+
+        List<UserXtrCounters> usersList = getUsers(listUsersIdFromPost);
+
+        HashMap<UserXtrCounters,Integer> mapUsersAndCountLikes = new HashMap<>();
+
+        usersList.forEach(user -> {
+            listUsersIdFromPost.forEach(bufId -> {
+                if (!mapUsersAndCountLikes.containsKey(user)){
+                    mapUsersAndCountLikes.put(user,1);
+                }else if (user.getId().equals(bufId)){
+                    mapUsersAndCountLikes.put(user,mapUsersAndCountLikes.get(user)+1);
+                }
+            });
+        });
+        mapUsersAndCountLikes.forEach((userXtrCounters, integer) -> {
+            System.out.println(userXtrCounters.getFirstName() + " "+ userXtrCounters.getLastName() +" = "+ integer);
+        });
+
+        return mapUsersAndCountLikes;
+    }
+
+
+
+
+    //TODO придумать что-то с кол-вом вызовом
+
+
+
 
 }

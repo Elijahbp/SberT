@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="594.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FX.Controller">
+   <children>
+
+   <Label fx:id="lblName" layoutX="303.0" layoutY="49.0" prefHeight="20.0" prefWidth="250.0" text="Имя" AnchorPane.bottomAnchor="378.0" AnchorPane.rightAnchor="15.0">
+       <font>
+           <Font name="System Bold" size="14.0" />
+       </font>
+   </Label>
+       <ImageView fx:id="imgView_userPhoto" fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="236.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="356.0" AnchorPane.topAnchor="14.0" />
+       <Button fx:id="btn_searchUser" layoutX="405.0" layoutY="261.0" mnemonicParsing="false" onAction="#searchingUser" prefHeight="25.0" prefWidth="81.0" text="Статистика" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+       <Label layoutX="303.0" layoutY="32.0" text="Введите id, чтобы собрать статистику:" AnchorPane.bottomAnchor="398.0" AnchorPane.rightAnchor="56.0" />
+       <TextField fx:id="textFld_userId" layoutX="303.0" layoutY="69.0" prefHeight="20.0" prefWidth="130.0" AnchorPane.bottomAnchor="353.0" AnchorPane.rightAnchor="135.0" />
+       <Label alignment="TOP_LEFT" layoutX="311.0" layoutY="196.0" prefHeight="17.0" prefWidth="117.0" text="Количество лайков: " AnchorPane.bottomAnchor="285.0" AnchorPane.rightAnchor="166.0" />
+      <Label fx:id="lblCountLikes" layoutX="434.0" layoutY="196.0" text="n" AnchorPane.bottomAnchor="285.0" AnchorPane.rightAnchor="153.0" />
+      <Label layoutX="226.0" layoutY="133.0" text="Количество коментариев на стене:" AnchorPane.bottomAnchor="260.0" AnchorPane.rightAnchor="91.0" />
+      <Label fx:id="lblCountComments" layoutX="523.0" layoutY="221.0" text="n" AnchorPane.bottomAnchor="260.0" AnchorPane.rightAnchor="64.0" />
+      <TableView fx:id="tableCommentsInfo" layoutX="208.0" layoutY="194.0" prefHeight="200.0" prefWidth="418.0" AnchorPane.bottomAnchor="53.0" AnchorPane.rightAnchor="12.0">
+        <columns>
+          <TableColumn fx:id="columnUsersName" prefWidth="281.0" text="Имя пользователя" />
+          <TableColumn fx:id="columnUsersComments" prefWidth="135.0" sortType="DESCENDING" text="Количество лайков" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

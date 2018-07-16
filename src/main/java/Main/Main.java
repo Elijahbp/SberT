@@ -1,15 +1,12 @@
 package Main;
 
+import Controllers.FX.Controller;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -41,13 +38,13 @@ public class Main extends Application {
     }
 
     private void setSearchScene(Stage primaryStage) throws IOException, ClientException, ApiException {
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("sample.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("../../resources/sample.fxml"));
         Parent parent = fxmlLoader.load();
         primaryStage.setTitle("Main form");
         primaryStage.setScene(new Scene(parent));
         Controller controller = fxmlLoader.getController();
         splitTokenUrl();
-        controller.setClientId(369512160,"eeedd0add24b2084672dbfaf295c77245ce055b67d52545cd88d96278af397e4b37303841dd31050b302f");
+        controller.setClientId(369512160,"cf6d98f2728aa9c9e39769843452b833d771b1f4e252d9d70c1c19b5e71f6b0d7828c9e87d743c6d4952b");
         primaryStage.show();
     }
 
