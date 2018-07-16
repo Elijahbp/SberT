@@ -9,14 +9,11 @@ import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import com.vk.api.sdk.objects.wall.WallPostFull;
 import com.vk.api.sdk.objects.wall.responses.GetResponse;
-import com.vk.api.sdk.queries.likes.LikesGetListQuery;
 import com.vk.api.sdk.queries.likes.LikesType;
 import com.vk.api.sdk.queries.users.UserField;
 import com.vk.api.sdk.queries.wall.WallGetFilter;
 
-import java.awt.font.TextHitInfo;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class ClientVK {
 
@@ -115,9 +112,6 @@ public class ClientVK {
                     mapUsersAndCountLikes.put(user,mapUsersAndCountLikes.get(user)+1);
                 }
             });
-        });
-        mapUsersAndCountLikes.forEach((userXtrCounters, integer) -> {
-            System.out.println(userXtrCounters.getFirstName() + " "+ userXtrCounters.getLastName() +" = "+ integer);
         });
 
         return mapUsersAndCountLikes;
